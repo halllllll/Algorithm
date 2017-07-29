@@ -11,7 +11,7 @@ Countぶん回せばすべてのインデックスの組み合わせは出せる
 二回目以降の判定は不必要になるので、もっと早くできそう
 */
 
-public class Hello{
+public class Program{
     public static void Main(){
         //出力設定
         var sw = new StreamWriter(Console.OpenStandardOutput()){AutoFlush = false};
