@@ -47,6 +47,7 @@ namespace Ex{
                 else high = mid;
             }
             if(low==high)low--;
+            if(low.CompareTo(array[0]<0)) return -1;
             return low;
         }
     }
