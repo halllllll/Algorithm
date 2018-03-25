@@ -1,0 +1,4 @@
+paiza/
+tests/
+*.exe
+.vscode
