@@ -2,3 +2,4 @@ paiza/
 tests/
 *.exe
 .vscode
+.DS_Store
