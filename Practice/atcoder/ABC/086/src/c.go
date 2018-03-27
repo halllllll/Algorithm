@@ -20,22 +20,20 @@ func main() {
 	n := nextInt()
 	dist, px, py := 0, 0, 0
 	flag := true
-	for i := 0; i < n; i++ {
-		if flag == true {
-			t, x, y := nextInt(), nextInt(), nextInt()
-			dist = (int(math.Abs(float64(x-px))) + int(math.Abs(float64(y-py))))
-			if t < dist {
-				flag = false
-			}
-			if t%2 != dist%2 {
-				flag = false
-			}
+	for i := 0; i < n && true; i++ {
+		t, x, y := nextInt(), nextInt(), nextInt()
+		dist = (int(math.Abs(float64(x-px))) + int(math.Abs(float64(y-py))))
+		if t < dist {
+			flag = false
+		}
+		if t%2 != dist%2 {
+			flag = false
 		}
 	}
 	if flag == true {
-		fmt.Println("Yes")
+		fmt.Fprintln(out, "Yes")
 	} else {
-		fmt.Println("No")
+		fmt.Fprintln(out, "No")
 	}
 }
 
