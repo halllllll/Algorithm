@@ -28,7 +28,6 @@ func main() {
 	for _, vs := range []rune(s) {
 		if _, ok := d[string(vs)]; !ok {
 			d[string(vs)] = "もう見た"
-			// ss = append(ss, string(vs))
 		}
 	}
 	for _, v := range alphabet {
