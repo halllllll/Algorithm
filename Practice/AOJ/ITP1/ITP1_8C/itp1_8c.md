@@ -11,11 +11,11 @@ Counting Characters
 アルファベットはruneを利用すればa~zまで作り出せる。大文字は使わないので`strings.ToLower()`する。
 
 goで書いててハマったのだが、グローバルに`var alphabetmap map[string]int`としてそのままmap[key]=valueと代入しようとしたら
-```
+```go
 panic: assignment to entry in nil map
 ```
 などと言われた。調べると、goではmapは宣言時に自動で初期化はされないらしい。なのでmainで再度
-```
+```go
 alphabetmap = map[string]int{}
 ```
 などとして初期化せねばならない。罠。
