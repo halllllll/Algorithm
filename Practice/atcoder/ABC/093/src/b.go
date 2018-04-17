@@ -10,11 +10,6 @@ func main(){
 		fmt.Println(a)
 		a++
 	}
-	/*
-	for i:=k; i>=0 && b-i>a; i--{
-		fmt.Println(b-i)
-	}
-	*/
 	for i:=b; i>b-k && i>=a; i--{
 		defer fmt.Println(i)
 	}
