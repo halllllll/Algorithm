@@ -1,6 +1,9 @@
 paiza/
 tests/
+tests
 *.exe
 .vscode
 .DS_Store
 debug
+Practice/atocder/HelloAtcoder
+vendor
