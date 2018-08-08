@@ -9,3 +9,5 @@ Practice/atocder/HelloAtcoder
 vendor
 Gemfile
 Gemfile.lock
+spec
+.rspec
