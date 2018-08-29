@@ -9,9 +9,11 @@ type Point struct {
 	X, Y float64
 }
 
+/*
 type Calc interface {
 	Dist(p *Point) float64
 }
+*/
 
 func (p *Point) Dist(other_p *Point) (ret float64) {
 	ret = math.Sqrt(math.Pow(p.X-other_p.X, 2.0) + math.Pow(p.Y-other_p.Y, 2.0))
