@@ -3,9 +3,9 @@ s = gets.chomp.split.map(&:to_i)
 
 $count = 0
 
-# marge sort
+# merge sort
 
-def marge(left, right)
+def merge(left, right)
   ret = []
   # p "start left: #{left}"
   # p "start right: #{right}"
@@ -27,16 +27,16 @@ def marge(left, right)
   ret
 end
 
-def marge_sort(arr)
+def merge_sort(arr)
   return arr if arr.size == 1
   mid = arr.size/2
   left = arr[0, mid]
   right = arr[mid, arr.size/2+1]
-  left = marge_sort(left)
-  right = marge_sort(right)
-  return marge(left, right)
+  left = merge_sort(left)
+  right = merge_sort(right)
+  return merge(left, right)
 end
 
-marged = marge_sort(s).map(&:to_s).join(' ')
-puts marged
+merged = merge_sort(s).map(&:to_s).join(' ')
+puts merged
 puts $count

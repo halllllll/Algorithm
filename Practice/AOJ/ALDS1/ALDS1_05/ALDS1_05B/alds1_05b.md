@@ -8,7 +8,7 @@ Recursion / Divide and Conquer - Merge Sort
 ## 方針と読解
 ソートの実装なんて飛ばしてきたので知らん。マージソートを調べた。しらべたら参考のリンクがあったのでパクった。
 
-algorythmの擬似コード読んでも分割の部分は分かるがmargeの部分は正直なにをやってるのかさっぱりわからん。
+algorythmの擬似コード読んでも分割の部分は分かるがmergeの部分は正直なにをやってるのかさっぱりわからん。
 
 ## 参考
 - [マージソート](https://www.codereading.com/algo_and_ds/algo/merge_sort.html)
