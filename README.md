@@ -1,2 +1,2 @@
-# Algorithm
+# Shojin
 AOJとかAtCoderあたりの練習とかですかね
