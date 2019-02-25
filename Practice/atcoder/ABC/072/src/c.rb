@@ -8,21 +8,18 @@ arr.each do |ai|
     table[ai] = 1
   end
 end
-koho = []
 # 最頻値の+-1の数とそのtable[+-1]の数を調べる。
 # ↑間違い 2 2 2 4 4 5 5 6 6 7 7とか
 # なので、出てきたやつを試していく
 max_count = 1
-koho.each do |mi|
-  # puts "#{mi}の周囲"
-  count = 0
+
+table.keys.each do |ai|
+  temp = 0
   [-1, 0, 1].each do |i|
-    if table.has_key?(mi+i)
-      count+=table[mi+i]
+    if table.has_key?(ai+i)
+      temp+=table[ai+i]
     end
   end
-  # puts "#{mi}の周囲の合計 #{count}"
-  max_count = [max_count, count].max
+  max_count = [max_count, temp].max
 end
-
 puts max_count
