@@ -18,7 +18,6 @@ if n==1
   puts gets.chomp.to_i
 else
   a = gets.chomp.to_i
-  ans = 0
   (n-1).times do
     b = gets.chomp.to_i
     a = lcm(a, b)
