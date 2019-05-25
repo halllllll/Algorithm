@@ -44,7 +44,7 @@ loop do
   @visited[target_node] = true
   # 追加するノードを選定し、コストを更新
   N.times do |i|
-    # 未踏かつエッジがある
+    # 未踏かつエッジがあるときは更新できない
     next unless @visited[i] == false && @graph[target_node][i] > 0
 
     # コスト更新できるかどうか
