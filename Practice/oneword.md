@@ -429,6 +429,9 @@ C
   - わざわざ正答数が多い簡単な問題を選んだのになんだこの体たらくは お前は生きてる価値があるのか
   - 死
 - shitshitshitshitshitshitsthimatherrrrrrrrrfuuuuuuuckkkkkkkkerrreeeeeeeeeeee
+- 3ヶ月前にやったやつのやり直し Difficultyの低いやつ選んだのに
+- 見たこと有るって言ってたのに無駄に時間かかった 混乱する
+  - しかも無駄に2WA 死
 #### 109
 C
 - gcd使う方針はあってたんだけどなぜか使い所がおかしくて
