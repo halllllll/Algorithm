@@ -13,11 +13,11 @@ def gcd(x, y):
 
 
 def lcm(x, y):
-    return (x*y)/gcd(x, y)
+    return (x*y)//gcd(x, y)
 
 
 for _ in range(n - 1):
     y = int(input())
     x = lcm(x, y)
 
-print(int(x))
+print(x)
