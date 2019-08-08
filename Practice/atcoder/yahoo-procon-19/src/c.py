@@ -1,19 +1,32 @@
 # ほしいのは枚数なので、円は必要ない。円が使えるなら使ったほうがいい
 # なぜかうまくいかない....
+# dpを使うか
+# dpでも間に合わないのでおそらくサクッと計算する方法があるっぽい
 
-k, a, b = map(int, input().split())
-bisquet, yen = 1, 0
+import sys
 
-while k > 0:
-    k -= 1
-    if yen > 0:
-        yen -= 1
-        bisquet += b
-    elif yen == 0 and bisquet >= a:
-        bisquet -= a
-        yen += 1
+sys.setrecursionlimit(10 ** 6)
+
+k, A, B = map(int, input().split())
+dp = {}
+
+
+def f(k, b, y):
+    # まずはいつもどおり再帰で
+    if (k, b, y) in dp:
+        return dp[(k, b, y)]
+    ret = 0
+    if k == 0:
+        ret = b
+    if y == 0:
+        if b >= A:
+            ret = max(f(k - 1, b - A, y + 1), f(k - 1, b + 1, y))
+        else:
+            ret = f(k - 1, b + 1, y)
     else:
-        bisquet += 1
-    print("now bisquet: {} yen: {}".format(bisquet, yen))
+        ret = max(f(k - 1, b + B, y - 1), f(k - 1, b + 1, y))
+    dp[(k, b, y)] = ret
+    return ret
 
-print(bisquet)
+
+print(f(k, 1, 0))
