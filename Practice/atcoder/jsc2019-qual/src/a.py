@@ -9,4 +9,4 @@ for i in range(1, M+1):
   for j in range(1, D + 1):
     count += 1 if f(i, j) else 0
 
-print(count)
+print(count)  
