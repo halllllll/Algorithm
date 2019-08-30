@@ -3,24 +3,12 @@
 # 配列、更新していくってのを誤読して数分溶かした（それぞれのうちいずれかを取ったときの最大かと思ってた）
 # とやったらTLEなった
 
+
+# え？これふつうにシミュじゃねぇの？ソートしたやつを毎回b個取ってmaxを更新すればいいだけでは
+
 n, m = map(int, input().split())
-arr = list(sorted(list(map(int, input().split()))))
-ruiseki = [0 for _ in range(n+1)]
-for i in range(1, n+1):
-    ruiseki[i] = ruiseki[i-1] + arr[i-1]
+arr = list(sorted(list(map(int, input().split()))), reverse=True)
 
-for i in range(m):
+for _ in range(m):
     b, c = map(int, input().split())
-    l, r = 0, b
-    while l < r:
-        mid = (l + r) // 2
-        if arr[mid] > c:
-            r = mid
-        else:
-            l = mid + 1
 
-    # rまで書き換えていい
-    # print("vs: {} sum={}".format([c] * r + arr[r:], sum([c] * r + arr[r:])))
-    arr = list(sorted([c] * r + arr[r:]))
-
-print(sum(arr))
