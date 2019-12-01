@@ -1,7 +1,4 @@
 <?php
-  # 2WAがとれず。。。。。
-
-  
   $n = intVal(trim(fgets(STDIN)));
   $s = array_map("intVal", explode(" ", trim(fgets(STDIN))));
   $color = 0;
@@ -15,6 +12,10 @@
   }
   foreach($s as $c){
     if($c == 0){
+      if($color >= 3){
+        echo 0 . PHP_EOL;
+        exit;
+      }
       $cur[$color] = 0;
       $color += 1;
       $ans %= $MOD;
