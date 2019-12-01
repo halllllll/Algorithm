@@ -1,10 +1,17 @@
-# 小さい順にa, b, cとしてaを決め打ち、bとcでダブル尺取
-# (小さい順に並ぶのでa<b+cとb<a+cは確定 残るc<a+bを調べる)
-
+# 全然わからんかったので解答みたら最も短い辺をにぶたんで探すらしい
+#
 n = int(input())
-print("n = ", n)
 arr = sorted(list(map(int, input().split())))
 print(arr)
 
-a, b, c = 0, 1, 2
-count = []
+
+def super_nibutan(arr, t):
+    l, r = 0, len(arr)
+
+
+for i in range(n - 1, -1, -1):
+    for j in range(i, -1, -1):
+        if i == j:
+            continue
+        print(i, j)
+

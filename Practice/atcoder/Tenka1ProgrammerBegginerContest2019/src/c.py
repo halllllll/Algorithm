@@ -1,7 +1,9 @@
 # 最終形態は...か###か....####
 # 一つでも #. のセットがある場合はいっそ.か#をぜんぶ入れ替えるほうがいいかどうかっていう
 # 無限にWAなるんだけどなんでこれがダメなのか納得いかない（解説は見たが納得がいかない
-
+# ↑ なーにいってんだ 次の場合にダメじゃねぇか（3になった）
+# 8
+# ##..#..#
 n, s = int(input()), input()
 flag = True
 for i in range(1, n):
@@ -27,4 +29,4 @@ else:
             countw += 1
         else:
             break
-    print(min(w-countw, b-countb))
+    print(min(w - countw, b - countb))
