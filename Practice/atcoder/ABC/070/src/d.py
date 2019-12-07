@@ -1,8 +1,7 @@
 # disjoint setかと思いきやDFS
-# どこが悪いのかさっっっっっっぱりわからん...
-# あ 再帰にしてるからその上限か
 # したらTLEになったので根本的にやり方が間違ってるということ
-
+# よくよく考えたらdfsなのでそこにたどり着いたときが最短距離だわ ムダに探索してた
+# Pypyだと残り1TLE, Pythonだとちょっときついけど間に合う感じになった。。
 
 import sys
 
@@ -23,16 +22,17 @@ k = k - 1
 ans_list = [0 for _ in range(n)]
 
 
-def dfs(node, used, weight):
+def dfs(node, weight):
     for data in graph[node]:
-        if data[0] not in used:
-            next_used = used[:]
-            next_used.append(data[0])
-            dfs(data[0], next_used, weight + data[1])
+        if not used[data[0]]:
+            used[data[0]] = True
+            dfs(data[0], weight + data[1])
     ans_list[node] = weight
 
 
-dfs(k, [k], 0)
+used = [False for _ in range(n)]
+used[k] = True
+dfs(k, 0)
 
 for _ in range(q):
     a, b = map(lambda x: int(x) - 1, input().split())
