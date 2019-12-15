@@ -1,3 +1,42 @@
+<<<<<<< HEAD
+{
+  "name": "for_algorithm",
+  "version": "1.0.0",
+  "description": "AOJとかAtCoderあたりの練習とかですかね",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "change": "sed -e s/\\\\.ts/\\\\.js/ tmpfileofnpm",
+    "save": "echo > tmpfileofnpm",
+    "remove": "rm tmpfileofnpm.js",
+    "z": "run-s \"save -- {1}\" \"change\" node \"remove\" --",
+    "x": "run-s \"tsc_out_other_file_name -- {1}\" \"node -- {2}\"  \"remove\" --",
+    "tsc_out_other_file_name": "tsc --out tmpfileofnpm.js --module amd",
+    "node": "node tmpfileofnpm.js < "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halllllll/Algorithm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/halllllll/Algorithm/issues"
+  },
+  "homepage": "https://github.com/halllllll/Algorithm#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.12",
+    "fs": "0.0.1-security",
+    "npm-run-all": "^4.1.5",
+    "npx": "^10.2.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {},
+  "keywords": []
+=======
 {
   "name": "for_algorithm",
   "version": "1.0.0",
@@ -27,4 +66,5 @@
   },
   "dependencies": {},
   "keywords": []
+>>>>>>> 07c752bcb21ad6230174753957bb630d9e17f9a6
 }

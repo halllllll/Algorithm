@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # DP
 N, M = map(int, input().split())
 
@@ -22,3 +24,4 @@ print(D, V)
 
 # print(f(0, 0, 0, 0))
 
+>>>>>>> 07c752bcb21ad6230174753957bb630d9e17f9a6
