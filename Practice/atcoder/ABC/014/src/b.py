@@ -1,28 +1,11 @@
-# DFSかと思いきや時系列に得られるので単にシミュするだけだった
-n = int(input())
-t1, t2 = [], []
-words = []
+# pythonのビット操作はクソという定評が自分の中にある
+# ので、リストを使う
+# したらなんかしらんけどWAなったのでキレながらbinする
+n, x = map(int, input().split())
+arr = list(map(int, input().split()))
+
+x = list(reversed(list(bin(x)[2:].zfill(n))))
+ans = 0
 for i in range(n):
-    w = input()
-    if i % 2 == 0:
-        if len(t1) == 0:
-            # 初手
-            t1.append(w)
-            words.append(w)
-        else:
-            p = t2[-1]
-            if p[-1] == w[0] and w not in words:
-                t1.append(w)
-                words.append(w)
-            else:
-                print("LOSE")
-                exit()
-    else:
-        p = t1[-1]
-        if p[-1] == w[0] and w not in words:
-            t2.append(w)
-            words.append(w)
-        else:
-            print("WIN")
-            exit()
-print("DRAW")
+    ans += arr[i] if x[i] == "1" else 0
+print(ans)
