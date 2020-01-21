@@ -1,32 +1,20 @@
-# ほしいのは枚数なので、円は必要ない。円が使えるなら使ったほうがいい
-# なぜかうまくいかない....
-# dpを使うか
-# dpでも間に合わないのでおそらくサクッと計算する方法があるっぽい
+# 何回目のアタックだよこれ（前回までのは当然読んですら無い）
+# 単純にa<bのとき貯めれるだけためて残りをbにぶっこむのじゃ駄目なの?
+k, a, b = map(int, input().split())
+if a >= b or b - a <= 2:
+    # 貯めるだけムダなので全振り
+    print(1 + k)
+    exit()
+x = a  # はじめてa枚貯まってから1円に交換したターン
+d = k - x  # x時点での残りターン
 
-import sys
-
-sys.setrecursionlimit(10 ** 6)
-
-k, A, B = map(int, input().split())
-dp = {}
-
-
-def f(k, b, y):
-    # まずはいつもどおり再帰で
-    if (k, b, y) in dp:
-        return dp[(k, b, y)]
-    ret = 0
-    if k == 0:
-        ret = b
-    if y == 0:
-        if b >= A:
-            ret = max(f(k - 1, b - A, y + 1), f(k - 1, b + 1, y))
-        else:
-            ret = f(k - 1, b + 1, y)
-    else:
-        ret = max(f(k - 1, b + B, y - 1), f(k - 1, b + 1, y))
-    dp[(k, b, y)] = ret
-    return ret
-
-
-print(f(k, 1, 0))
+if d == 0:
+    # 変えないほうがよかったね
+    print(1 + k)
+    exit()
+if d % 2 == 0:
+    # 直前で止めて+1したほうがいい
+    print(a + (b - a) * (d // 2) + 1)
+else:
+    # そのまま交換したほうがいい
+    print(b + (b - a) * (d // 2))
