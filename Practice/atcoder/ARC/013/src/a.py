@@ -12,4 +12,4 @@ def f(a, b, c):
     return w * y * z
 
 
-print(max(f(p, q, r), f(p, r, q), f(q, r, p), f(q, p, r), f(r, p, q), f(r, p, q)))
+print(max(f(p, q, r), f(p, r, q), f(q, r, p), f(q, p, r), f(r, p, q), f(r, q, p)))
