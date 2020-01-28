@@ -1,21 +1,15 @@
-# 二文字以上連続する箇所があったら確定 eialfisxxnidkaofkufdだとxxnとかを示せばいい
-# 連続して無くても、（取りぬく部分文字列）全体の長さの過半数だとおｋ xnxはおｋ xlbxはダメ
-
-# いまみている文字と同じ文字が次に出てくる最も近い場所を探索してその距離を求める？1or2なら確定
+# 尺取かと思ったけど実装できんな
+# あれ？過半数だから成立する場合は3文字だけを抜き取ったどこかで必ず成立するのでは
 s = input()
-a, b = -1, -1
-for i in range(len(s) - 1):
-    if i == len(s) - 2:
-        # 次の一手しかみれない
-        if s[i] == s[i + 1]:
-            a, b = i + 1, i + 2
-            break
+if len(s) == 2:
+    if s[0] == s[1]:
+        print(1, 2)
     else:
-        if s[i] == s[i + 1]:
-            a, b = i + 1, i + 2
-            break
-        elif s[i] == s[i + 2]:
-            a, b = i + 1, i + 3
-            break
-
-print(a, b)
+        print(-1, -1)
+    exit()
+for i in range(len(s) - 3):
+    target = s[i : i + 3]
+    if target[0] == target[1] or target[1] == target[2] or target[2] == target[0]:
+        print(i + 1, i + 3)
+        exit()
+print(-1, -1)
