@@ -1,27 +1,25 @@
-<<<<<<< HEAD
-=======
-# DP
-N, M = map(int, input().split())
+# 優先度つきキューをやるらしい
+# どうすんのと思ったら毎回条件があうまで探索してpushしてpopすんのか
 
-D, V = [], []
-for _ in range(N):
-    x = list(map(int, input().split()))
-    D.append(x[0])
-    V.append(x[1])
+import heapq
 
-print(D, V)
+n, m = map(int, input().split())
+arr = []
+for _ in range(n):
+    arr.append(list(map(int, input().split())))
+arr = sorted(arr, key=lambda x: x[0])
 
-# なぜかうまくいかない
-# def f(i, c, d, k):
-#     if k == M:
-#         return c
-#     if i == N:
-#         return -1
-#     if d + D[i] > N:
-#         return f(i + 1, c, d, k)
-#     return max(f(i + 1, c + V[i], d + D[i], k + 1), f(i + 1, c, d, k))
+idx = 0
+ans = 0
+heap = []
+heapq.heapify(heap)
+for i in range(1, m + 1):
+    # i...残り日数
+    while idx < n and arr[idx][0] <= i:
+        heapq.heappush(heap, -arr[idx][1])
+        idx += 1
+    # この時点でヒープで次に取り出す値には残り日数iの時点での最大値（つーか最小値）が入っている
+    if heap:
+        ans = ans - heapq.heappop(heap)
 
-
-# print(f(0, 0, 0, 0))
-
->>>>>>> 07c752bcb21ad6230174753957bb630d9e17f9a6
+print(ans)
