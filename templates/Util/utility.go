@@ -14,7 +14,7 @@ var out = bufio.NewWriter(os.Stdout)
 func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
-	/* --- code ---*/
+	/* --- code ---* /
 
 }
 
@@ -55,15 +55,12 @@ func nextStrings(n int) []string {
 	return ret
 }
 
-// Genericsがないので筋肉で...
-// interfaceでの取扱がようわからんし
-func containStr(arr []string, target string) bool {
-	for _, v := range arr {
-		if v == target {
-			return true
-		}
+func split(s string) []string {
+	ret := make([]string, len([]rune(s)))
+	for i, v := range []rune(s) {
+		ret[i] = string(v)
 	}
-	return false
+	return ret
 }
 
 func PrintOut(src interface{}, joinner string) {
@@ -81,21 +78,4 @@ func PrintOut(src interface{}, joinner string) {
 	default:
 		fmt.Fprintln(out, "fuck")
 	}
-}
-
-// mapからkeysとvaluesを返す感じのやつ
-// なんかしらんけどmap[interface{}]interface{}しか受け付けない。なんのためのinterface{}やねん
-// なので呼ぶときのmapはmap[int]stringとかじゃダメ
-func splitKeyValue(m map[interface{}]interface{}) (keys, values []interface{}) {
-	switch reflect.TypeOf(m).Kind() {
-	case reflect.Map:
-		s := reflect.ValueOf(m)
-		for _, v := range s.MapKeys() {
-			keys = append(keys, v)
-			values = append(values, s.MapIndex(v))
-		}
-	default:
-		fmt.Fprintln(out, "fuck")
-	}
-	return
 }
