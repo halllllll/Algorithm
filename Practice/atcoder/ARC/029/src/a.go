@@ -15,40 +15,38 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
 	/* --- code ---*/
-	// 令和C最大級に日本語がむずかしい かといって英語もむずかしい
-	// スイッチの状態をbit全探索する
-	n, m := nextInt(), nextInt()
-	balbs := make([][]int, m)
-	for i := 0; i < m; i++ {
-		k := nextInt()
-		balbs[i] = make([]int, k)
-		for j := 0; j < k; j++ {
-			balbs[i][j] = nextInt() - 1
-		}
+	// bit全探索の練習にきました
+	n := nextInt()
+	nikutime := make([]int, n)
+	for i := 0; i < n; i++ {
+		nikutime[i] = nextInt()
 	}
-	ans := 0
-	ps := nextInts(m)
-	// スイッチがn個あるのでそれのオンオフの状態 2^nぶん
-	// ループでやるの毎回わけわからんな
-	for i := 0; i < (1 << n); i++ {
-		ok := true
-		for j := 0; j < m; j++ {
-			c := 0
-			for _, b := range balbs[j] {
-				if (i>>b)&1 == 1 {
-					c += 1
-				}
-			}
-			c %= 2
-			if c != ps[j] {
-				ok = false
+	ans := 100000000000
+	for i := 0; i < (1 << uint64(n)); i++ {
+		nikuyakiA, nikuyakiB := 0, 0
+		for j := 0; j < n; j++ {
+			if 1&(i>>uint64(j)) == 1 {
+				nikuyakiA += nikutime[j]
+			} else {
+				nikuyakiB += nikutime[j]
 			}
 		}
-		if ok {
-			ans += 1
-		}
+		ans = min(ans, max(nikuyakiA, nikuyakiB))
 	}
 	fmt.Fprintln(out, ans)
+}
+
+func max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
+}
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func next() string {
@@ -84,6 +82,14 @@ func nextStrings(n int) []string {
 	ret := make([]string, n)
 	for i := 0; i < n; i++ {
 		ret[i] = next()
+	}
+	return ret
+}
+
+func split(s string) []string {
+	ret := make([]string, len([]rune(s)))
+	for i, v := range []rune(s) {
+		ret[i] = string(v)
 	}
 	return ret
 }
