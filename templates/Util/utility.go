@@ -14,7 +14,8 @@ var out = bufio.NewWriter(os.Stdout)
 func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
-	/* --- code ---* /
+	/* --- code --- */
+	
 
 }
 
@@ -78,4 +79,31 @@ func PrintOut(src interface{}, joinner string) {
 	default:
 		fmt.Fprintln(out, "fuck")
 	}
+}
+
+// nibutan
+func lower_bound(arr []int, target int) int {
+	l, r := 0, len(arr)
+	for l < r {
+		mid := (l + r) / 2
+		if arr[mid] < target {
+			l = mid + 1
+		} else {
+			r = mid
+		}
+	}
+	return l
+}
+
+func upper_bound(arr []int, target int) int {
+	l, r := 0, len(arr)
+	for l < r {
+		mid := (l + r) / 2
+		if target < arr[mid] {
+			r = mid
+		} else {
+			l = mid + 1
+		}
+	}
+	return l
 }
