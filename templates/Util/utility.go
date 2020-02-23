@@ -15,7 +15,10 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
-	
+	a, b := nextInt(), nextInt()
+	fmt.Println(a, b)
+	n := gcd(a, b)
+	fmt.Println(n)
 
 }
 
@@ -81,7 +84,9 @@ func PrintOut(src interface{}, joinner string) {
 	}
 }
 
-// nibutan
+// -*-*-*-*-*-
+// * nibutan *
+// -*-*-*-*-*-
 func lower_bound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
@@ -106,4 +111,42 @@ func upper_bound(arr []int, target int) int {
 		}
 	}
 	return l
+}
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// * math flavor typical theories *
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+func gcd(a, b int)int{
+	if a > b{
+		return gcd(b, a)
+	}
+	for a != 0{
+		a, b = b % a, a
+	}
+	return b
+}
+
+func pow(a, b int) (ret int) {
+	ret = a
+	// 10^2 = 100ってことは10に10を1回掛けることだね
+	// なので初期値を含めると上限b-1未満
+	for i := 0; i < b-1; i++ {
+		ret *= a
+	}
+	return
+}
+
+
+func powMod(n, m, mod int) (ret int) {
+	ret = 1
+	for m > 0 {
+		if m&1 == 1 {
+			ret *= n
+			ret %= mod
+		}
+		n *= n
+		n %= mod
+		m >>= 1
+	}
+	return ret
 }
