@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"sort"
 	"strconv"
 )
 
@@ -15,35 +16,44 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
-	m, n := nextInt(), nextInt()
-	mod := pow(10, 9) + 7
-
-	ans := powMod(m, n, mod)
-	fmt.Println(ans % mod)
-}
-
-func powMod(n, m, mod int) (ret int) {
-	ret = 1
-	for m > 0 {
-		if m&1 == 1 {
-			ret *= n
-			ret %= mod
+	// for d = nextInt(); d > 0; { なんで駄目なの
+	for {
+		d := nextInt()
+		if d == 0 {
+			break
 		}
-		n *= n
-		n %= mod
-		m >>= 1
+		n, m := nextInt(), nextInt()
+		shops := make([]int, n+1)
+		shops[0] = 0
+		for i := 1; i < n; i++ {
+			shops[i] = nextInt()
+		}
+		shops[n] = d
+		sort.Ints(shops)
+		ans := 0
+		for i := 0; i < m; i++ {
+			k := nextInt()
+			l, r := 0, n+1
+			for r-l > 1 {
+				mid := (l + r) / 2
+				if shops[mid] < k {
+					l = mid
+				} else {
+					r = mid
+				}
+			}
+			ans += min(shops[r]-k, k-shops[l])
+		}
+		fmt.Fprintln(out, ans)
 	}
-	return ret
 }
 
-func pow(a, b int) (ret int) {
-	ret = a
-	// 10^2 = 100ってことは10を2回掛けることだね
-	// なので上限b-1未満
-	for i := 0; i < b-1; i++ {
-		ret *= a
+func min(a, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
 	}
-	return
 }
 
 func next() string {
@@ -108,7 +118,9 @@ func PrintOut(src interface{}, joinner string) {
 	}
 }
 
-// nibutan
+// -*-*-*-*-*-
+// * nibutan *
+// -*-*-*-*-*-
 func lower_bound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
@@ -133,4 +145,41 @@ func upper_bound(arr []int, target int) int {
 		}
 	}
 	return l
+}
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// * math flavor typical theories *
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+func gcd(a, b int) int {
+	if a > b {
+		return gcd(b, a)
+	}
+	for a != 0 {
+		a, b = b%a, a
+	}
+	return b
+}
+
+func pow(a, b int) (ret int) {
+	ret = a
+	// 10^2 = 100ってことは10に10を1回掛けることだね
+	// なので初期値を含めると上限b-1未満
+	for i := 0; i < b-1; i++ {
+		ret *= a
+	}
+	return
+}
+
+func powMod(n, m, mod int) (ret int) {
+	ret = 1
+	for m > 0 {
+		if m&1 == 1 {
+			ret *= n
+			ret %= mod
+		}
+		n *= n
+		n %= mod
+		m >>= 1
+	}
+	return ret
 }
