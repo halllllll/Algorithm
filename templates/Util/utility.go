@@ -88,9 +88,25 @@ func PrintOut(src interface{}, joinner string) {
 	}
 }
 
-// -*-*-*-*-*-
-// * nibutan *
-// -*-*-*-*-*-
+// -*-*-*-*-*-*-*-*-
+// * tool snippets *
+// -*-*-*-*-*-*-*-*-
+func duplicate2Int(base [][]int)(ret [][]int){
+    ret = make([][]int, len(base))
+    for i, v := range base{
+        ret[i] = append([]int{}, v...)
+    }
+    return
+}
+
+
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-
+// * Algorithms Utility Zone *
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+// -*-*-*-*-*-*-*-
+// * 1. nibutan  *
+// -*-*-*-*-*-*-*-
 func lower_bound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
