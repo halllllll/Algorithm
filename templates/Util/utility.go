@@ -22,6 +22,10 @@ func main() {
 
 }
 
+// -*-*-*-*-*-*-*-*-
+// * I/O utilities *
+// -*-*-*-*-*-*-*-*-
+
 func next() string {
 	sc.Scan()
 	return sc.Text()
