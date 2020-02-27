@@ -15,10 +15,10 @@ for l in range(n):
         while s >= k and l <= n:
             s -= arr[l]
             count += 1
-            l += 1
+            l += 1  # これいらなくね？
         break
     else:
         count += n + 1 - r
         s -= arr[l]
-        l += 1
+        l += 1  # これいらなくね？
 print(count)
