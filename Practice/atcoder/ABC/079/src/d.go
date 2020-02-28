@@ -15,89 +15,48 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
-	// 負の閉路にも対応できるワ―シャルフロイドを使う
-	v, e := nextInt(), nextInt()
-	INF := pow(10, 16)
-	table := make([][]int, v)
-	for i:=0; i<v; i++{
-		table[i] = make([]int, v)
-		for j:=0; j<v; j++{
-			if i!=j{
-				table[i][j] = INF
-			}else{
-				table[i][j] = 0
-			}
+	// これみてもなかなかワ―シャルフロイドって気づきにくい。。応用ができない。。。
+	// でもこれが本質に近いんだろうなぁ
+	h, w := nextInt(), nextInt()
+	table := make([][]int, 10)
+	for i := 0; i < 10; i++ {
+		table[i] = make([]int, 10)
+		line := nextInts(10)
+		for j := 0; j < 10; j++ {
+			table[i][j] = line[j]
 		}
 	}
-	for i:=0; i<e; i++{
-		s,t,d := nextInt(), nextInt(), nextInt()
-		table[s][t] = d
-		// table[t][s] = d
-	}
-	for k:=0; k<v; k++{
-		for i:=0; i<v; i++{
-			// この判定が必要
-			if table[i][k] == INF{
-				continue
-			}
-			for j:=0; j<v; j++{
-				// この判定が必要
-				if table[k][j] == INF{
-					continue
-				}
+
+	for k := 0; k < 10; k++ {
+		for i := 0; i < 10; i++ {
+			for j := 0; j < 10; j++ {
 				table[i][j] = min(table[i][j], table[i][k]+table[k][j])
 			}
 		}
 	}
-	for i, t := range table{
-		for j, tv := range t{
-			if table[j][j] < 0 || table[i][i] < 0{
-				fmt.Println("NEGATIVE CYCLE")
-				os.Exit(0) // returnだとなんか処理が生きてて駄目だった
+	ans := 0
+	for y := 0; y < h; y++ {
+		line := nextInts(w)
+		for x := 0; x < w; x++ {
+			if line[x] == -1 || line[x] == 1 {
+				continue
 			}
-			if tv == INF{
-				fmt.Fprint(out, "INF")
-			}else{
-				fmt.Fprint(out, tv)
-			}
-			if j < v-1{
-				fmt.Fprint(out, " ")
-			}
+			ans += table[line[x]][1]
 		}
-		fmt.Fprintln(out)
 	}
+	fmt.Fprintln(out, ans)
 }
 
-func min(a, b int)int{
-	if a < b{
+func min(a, b int) int {
+	if a < b {
 		return a
 	}
 	return b
 }
 
-func powMod(n, m, mod int) (ret int) {
-	ret = 1
-	for m > 0 {
-		if m&1 == 1 {
-			ret *= n
-			ret %= mod
-		}
-		n *= n
-		n %= mod
-		m >>= 1
-	}
-	return ret
-}
-
-func pow(a, b int) (ret int) {
-	ret = a
-	// 10^2 = 100ってことは10を2回掛けることだね
-	// なので上限b-1未満
-	for i := 0; i < b-1; i++ {
-		ret *= a
-	}
-	return
-}
+// -*-*-*-*-*-*-*-*-
+// * I/O utilities *
+// -*-*-*-*-*-*-*-*-
 
 func next() string {
 	sc.Scan()
@@ -161,7 +120,24 @@ func PrintOut(src interface{}, joinner string) {
 	}
 }
 
-// nibutan
+// -*-*-*-*-*-*-*-*-
+// * tool snippets *
+// -*-*-*-*-*-*-*-*-
+func duplicate2Int(base [][]int) (ret [][]int) {
+	ret = make([][]int, len(base))
+	for i, v := range base {
+		ret[i] = append([]int{}, v...)
+	}
+	return
+}
+
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-
+// * Algorithms Utility Zone *
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+// -*-*-*-*-*-*-*-
+// * 1. nibutan  *
+// -*-*-*-*-*-*-*-
 func lower_bound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
@@ -186,4 +162,41 @@ func upper_bound(arr []int, target int) int {
 		}
 	}
 	return l
+}
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// * math flavor typical theories *
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+func gcd(a, b int) int {
+	if a > b {
+		return gcd(b, a)
+	}
+	for a != 0 {
+		a, b = b%a, a
+	}
+	return b
+}
+
+func pow(a, b int) (ret int) {
+	ret = a
+	// 10^2 = 100ってことは10に10を1回掛けることだね
+	// なので初期値を含めると上限b-1未満
+	for i := 0; i < b-1; i++ {
+		ret *= a
+	}
+	return
+}
+
+func powMod(n, m, mod int) (ret int) {
+	ret = 1
+	for m > 0 {
+		if m&1 == 1 {
+			ret *= n
+			ret %= mod
+		}
+		n *= n
+		n %= mod
+		m >>= 1
+	}
+	return ret
 }
