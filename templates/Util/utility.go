@@ -170,3 +170,48 @@ func powMod(n, m, mod int) (ret int) {
 	}
 	return ret
 }
+
+func next_permutation(arr []int)(func()[]int){
+		/*
+			how to use it:
+				this is a generator, so should be invoked such as below example.
+				
+				"""code"""
+				np := next_permutation(arr)
+				for{
+					lis := np()
+					if len(lis) == 0{
+						break
+					}
+					fmt.Println(lis)
+				}
+				"""code end"""
+		*/
+    first := true
+    ret := append([]int{}, arr...)
+    _next_permutation := func()([]int){
+        if first{
+            first = false
+            return arr
+        }
+        n := len(ret)
+        for i:=n-2; i>=0; i--{
+            if ret[i] < ret[i+1]{
+                j := n
+                for{
+                    j-=1
+                    if ret[i] < ret[j]{
+                        break
+                    }
+                }
+                ret[i], ret[j] = ret[j], ret[i]
+                for k:=n-1; i<k; i, k = i+1, k-1{
+                    ret[i+1], ret[k] = ret[k], ret[i+1]
+                }
+                return ret
+            }
+        }
+        return []int{}
+    }
+    return _next_permutation
+}
