@@ -13,7 +13,7 @@ var out = bufio.NewWriter(os.Stdout)
 
 func main() {
 	sc.Split(bufio.ScanWords)
-	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
+	defer out.Flush() // !!!!caution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
 	a, b := nextInt(), nextInt()
 	fmt.Println(a, b)
