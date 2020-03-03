@@ -63,7 +63,7 @@ func nextStrings(n int) []string {
 	return ret
 }
 
-func split(s string) []string {
+func chars(s string) []string {
 	ret := make([]string, len([]rune(s)))
 	for i, v := range []rune(s) {
 		ret[i] = string(v)
