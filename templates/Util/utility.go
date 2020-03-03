@@ -99,6 +99,42 @@ func duplicate2Int(base [][]int)(ret [][]int){
     return
 }
 
+func min(a, b interface{})interface{}{
+    x, y := toFloat64(a), toFloat64(b)
+    if x < y{
+        return a
+    }else{
+        return b
+    }
+}
+
+func max(a, b interface{})interface{}{
+    x, y := toFloat64(a), toFloat64(b)
+    if x > y{
+        return a
+    }else{
+        return b
+    }
+}
+
+
+func toFloat64(v interface{}) float64 {
+    r := reflect.ValueOf(v)
+    if r.IsValid() {
+        switch r.Kind() {
+        case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+            reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+            reflect.Float32, reflect.Float64:
+            var x float64
+            return r.Convert(reflect.TypeOf(x)).Interface().(float64)
+        default:
+            return 0
+
+        }
+    } 
+    return 0
+}
+
 
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-
 // * Algorithms Utility Zone *
