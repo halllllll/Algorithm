@@ -207,6 +207,33 @@ func powMod(n, m, mod int) (ret int) {
 	return ret
 }
 
+func ncr(n, r int)int{
+		// せいぜいn<10^2くらいの精度しかなくない？
+    res := 1
+    for i := 1; i <= r; i++ {
+     res = res * (n - i + 1) / i
+    }
+    return res
+}
+
+func ncrMod(n, r, mod int)int{
+    // 呼び出すたびにテーブルを作るのは愚です（どうしようかね）
+    _n := 1000000
+    g1 := make([]int, _n+1)
+    g1[0], g1[1] = 1, 1
+    g2 := make([]int, _n+1)
+    g2[0], g2[1] = 1, 1
+    inverse := make([]int, _n+1)
+    inverse[0], inverse[1] = 0, 1
+    for i:=2; i<=_n; i++{
+        g1[i] = (g1[i-1]*i)%mod
+        inverse[i] = mod - inverse[mod % i] * (mod/i)%mod
+        g2[i] = (g2[i-1]*inverse[i])%mod
+    }
+    
+    return g1[n]*(g2[r]*g2[n-r]%mod)%mod
+}
+
 func next_permutation(arr []int)(func()[]int){
 		/*
 			how to use it:
