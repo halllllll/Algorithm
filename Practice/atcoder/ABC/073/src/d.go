@@ -15,29 +15,103 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
-	// 任意のところに入れれるので一発でまともなところに挿入できると考えていい
-	// 他のやつは動かすだけ無意味なのでおいておく、つまりこれを求める
-	// 動かさないのを考えるとLISなのでn-LIS
+	// ワ―シャルフロイド典型っぽい？
+	// とおもったら経路Rの全組み合わせ列挙してそのうちの最小値だった
+	// ので、わざわざnext_permutationを実装した
 
-	// ん―？？？？？2WAなるんだけど.......
-
-	n := nextInt()
-	cs := nextInts(n)
-	INF := pow(10, 15)
-	dp := make([]int, n+1)
-	for i := 1; i < len(dp); i++ {
-		dp[i] = INF
+	INF := pow(10, 16)
+	n, m, r := nextInt(), nextInt(), nextInt()
+	rs := nextInts(r)
+	for i := 0; i < r; i++ {
+		rs[i] -= 1
 	}
-	dp[0] = -1
+	table := make([][]int, n)
 	for i := 0; i < n; i++ {
-		idx := lower_bound(dp, cs[i])
-		if idx == n+1 {
-			idx -= 1
+		table[i] = make([]int, n)
+		for j := 0; j < n; j++ {
+			if i != j {
+				table[i][j] = INF
+			}
 		}
-		dp[idx] = cs[i]
 	}
-	ret := lower_bound(dp, INF) - 1
-	fmt.Fprintln(out, n-ret)
+
+	for i := 0; i < m; i++ {
+		a, b, c := nextInt()-1, nextInt()-1, nextInt()
+		table[a][b] = c
+		table[b][a] = c
+	}
+
+	for k := 0; k < n; k++ {
+		for i := 0; i < n; i++ {
+			if table[i][k] == INF {
+				continue
+			}
+			for j := 0; j < n; j++ {
+				if table[j][k] == INF {
+					continue
+				}
+				table[i][j] = min(table[i][j], table[i][k]+table[k][j])
+			}
+		}
+	}
+
+	ans := pow(10, 12)
+	// rs、最初所与の順番でやるのかとおもってたけど、順番は自由なのね
+	indicies := make([]int, r)
+	for i := 0; i < r; i++ {
+		indicies[i] = i
+	}
+	np := next_permutation(indicies)
+	for {
+		nex_perm := np()
+		if len(nex_perm) == 0 {
+			break
+		}
+		new_rs := make([]int, r)
+		for i := 0; i < r; i++ {
+			new_rs[i] = rs[nex_perm[i]]
+		}
+		cur := new_rs[0]
+		tmp := 0
+		for i := 1; i < r; i++ {
+			nex := new_rs[i]
+			tmp += table[cur][nex]
+			cur = new_rs[i]
+		}
+		ans = min(ans, tmp)
+	}
+
+	fmt.Fprintln(out, ans)
+}
+
+func next_permutation(arr []int) func() []int {
+	first := true
+	ret := append([]int{}, arr...)
+	_next_permutation := func() []int {
+		if first {
+			first = false
+			return arr
+		}
+		n := len(ret)
+		for i := n - 2; i >= 0; i-- {
+			if ret[i] < ret[i+1] {
+				j := n
+				for {
+					j -= 1
+					if ret[i] < ret[j] {
+						break
+					}
+				}
+				ret[i], ret[j] = ret[j], ret[i]
+				for k := n - 1; i < k; i, k = i+1, k-1 {
+					ret[i+1], ret[k] = ret[k], ret[i+1]
+				}
+				return ret
+			}
+		}
+		return []int{}
+	}
+	return _next_permutation
 }
 
 func min(a, b int) int {
@@ -192,49 +266,4 @@ func powMod(n, m, mod int) (ret int) {
 		m >>= 1
 	}
 	return ret
-}
-
-func next_permutation(arr []int) func() []int {
-	/*
-		how to use it:
-			this is a generator, so should be invoked such as below example.
-
-			"""code"""
-			np := next_permutation(arr)
-			for{
-				lis := np()
-				if len(lis) == 0{
-					break
-				}
-				fmt.Println(lis)
-			}
-			"""code end"""
-	*/
-	first := true
-	ret := append([]int{}, arr...)
-	_next_permutation := func() []int {
-		if first {
-			first = false
-			return arr
-		}
-		n := len(ret)
-		for i := n - 2; i >= 0; i-- {
-			if ret[i] < ret[i+1] {
-				j := n
-				for {
-					j -= 1
-					if ret[i] < ret[j] {
-						break
-					}
-				}
-				ret[i], ret[j] = ret[j], ret[i]
-				for k := n - 1; i < k; i, k = i+1, k-1 {
-					ret[i+1], ret[k] = ret[k], ret[i+1]
-				}
-				return ret
-			}
-		}
-		return []int{}
-	}
-	return _next_permutation
 }
