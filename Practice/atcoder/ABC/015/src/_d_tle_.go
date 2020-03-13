@@ -11,52 +11,62 @@ import (
 var sc = bufio.NewScanner(os.Stdin)
 var out = bufio.NewWriter(os.Stdout)
 
+type Item struct {
+	width, value int
+}
+
+var dp [][][]int
+var items []Item
+var w, k, n int
+
 func main() {
 	sc.Split(bufio.ScanWords)
-	defer out.Flush() // !!!!coution!!!! you must use Fprint(out, ) not Print()
+	defer out.Flush() // !!!!caution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
-
-	n, m, q := nextInt(), nextInt(), nextInt()
-	// 二次元累積和するときは素直に+1したほうが楽っていう気づき
-	table := make([][]int, n+1)
-	for i:=0; i<n+1; i++{
-		table[i] = make([]int, n+1)
-	}
-	for i:=0; i<m; i++{
-		// l, r := nextInt()-1, nextInt()-1
-		l, r := nextInt(), nextInt()
-		table[l][r] += 1
-	}
-	for i:= 0; i<n+1; i++{
-		for j:=1; j<n+1; j++{
-			table[i][j] += table[i][j-1]
+	w = nextInt()
+	n, k = nextInt(), nextInt()
+	dp = make([][][]int, n+1)
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([][]int, k+1)
+		for j := 0; j < len(dp[i]); j++ {
+			dp[i][j] = make([]int, w+1)
+			for kk := 0; kk < len(dp[i][j]); kk++ {
+				dp[i][j][kk] = -1
+			}
 		}
 	}
-	for j:=0; j<n+1; j++{
-		for i:=1; i<n+1; i++{
-			table[i][j] += table[i-1][j]
-		}
+	dp[0][0][0] = 0
+	items = make([]Item, n)
+	for i := 0; i < n; i++ {
+		a, b := nextInt(), nextInt()
+		item := Item{width: a, value: b}
+		// items = append(items, item)
+		items[i] = item
 	}
+	fmt.Fprintln(out, rec(0, k, 0))
+}
 
-	// for _, t := range table{
-	// 	fmt.Fprintln(out, t)
-	// }
-	for i:=0; i<q; i++{
-		pi, qi := nextInt(), nextInt()
-		fmt.Fprintln(out, table[qi][qi]-table[pi-1][qi]-table[qi][pi-1]+table[pi-1][pi-1])
+func rec(i, ki, wi int) int {
+	if dp[i][ki][wi] > 0 {
+		return dp[i][ki][wi]
 	}
+	if i == n || ki == 0 {
+		dp[i][ki][wi] = 0
+		return 0
+	}
+	ret := -1
+	if wi+items[i].width <= w {
+		ret = max(ret, max(rec(i+1, ki, wi), rec(i+1, ki-1, wi+items[i].width)+items[i].value))
+	} else {
+		ret = max(ret, rec(i+1, ki, wi))
+	}
+	dp[i][ki][wi] = ret
+	return ret
 }
 
 // -*-*-*-*-*-*-*-*-
 // * I/O utilities *
 // -*-*-*-*-*-*-*-*-
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
 
 func next() string {
 	sc.Scan()
@@ -95,7 +105,7 @@ func nextStrings(n int) []string {
 	return ret
 }
 
-func split(s string) []string {
+func chars(s string) []string {
 	ret := make([]string, len([]rune(s)))
 	for i, v := range []rune(s) {
 		ret[i] = string(v)
@@ -129,6 +139,41 @@ func duplicate2Int(base [][]int) (ret [][]int) {
 		ret[i] = append([]int{}, v...)
 	}
 	return
+}
+
+func min(a, b int) int {
+	x, y := toFloat64(a), toFloat64(b)
+	if x < y {
+		return a
+	} else {
+		return b
+	}
+}
+
+func max(a, b int) int {
+	x, y := toFloat64(a), toFloat64(b)
+	if x > y {
+		return a
+	} else {
+		return b
+	}
+}
+
+func toFloat64(v interface{}) float64 {
+	r := reflect.ValueOf(v)
+	if r.IsValid() {
+		switch r.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+			reflect.Float32, reflect.Float64:
+			var x float64
+			return r.Convert(reflect.TypeOf(x)).Interface().(float64)
+		default:
+			return 0
+
+		}
+	}
+	return 0
 }
 
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -199,6 +244,33 @@ func powMod(n, m, mod int) (ret int) {
 		m >>= 1
 	}
 	return ret
+}
+
+func ncr(n, r int) int {
+	// せいぜいn<10^2くらいの精度しかなくない？
+	res := 1
+	for i := 1; i <= r; i++ {
+		res = res * (n - i + 1) / i
+	}
+	return res
+}
+
+func ncrMod(n, r, mod int) int {
+	// 呼び出すたびにテーブルを作るのは愚です（どうしようかね）
+	_n := 1000000
+	g1 := make([]int, _n+1)
+	g1[0], g1[1] = 1, 1
+	g2 := make([]int, _n+1)
+	g2[0], g2[1] = 1, 1
+	inverse := make([]int, _n+1)
+	inverse[0], inverse[1] = 0, 1
+	for i := 2; i <= _n; i++ {
+		g1[i] = (g1[i-1] * i) % mod
+		inverse[i] = mod - inverse[mod%i]*(mod/i)%mod
+		g2[i] = (g2[i-1] * inverse[i]) % mod
+	}
+
+	return g1[n] * (g2[r] * g2[n-r] % mod) % mod
 }
 
 func next_permutation(arr []int) func() []int {
