@@ -2,11 +2,13 @@
 # 登場回数が2以上のものが対象になる 多そうなのでncr自体をメモ化しておくか
 # TLEくらった もうすこしメモ化してみる（どうせ同じ数があるのでncrの計算を減らすべく、答え自体をメモ化した(memo2)）
 # それでもTLEくらった
+# あ クエリに対してあらかじめ答えを用意しておけばいいか
+# なぜかWAくらったしTLEが直ってない
 
 n = int(input())
 arr = list(map(int, input().split()))
 memo = {}
-memo2 = {}
+
 dic = {}
 for a in arr:
     if a in dic:
@@ -26,15 +28,19 @@ def ncr(n, r):
     return res
 
 
+ans = {}
+for k, v in dic.items():
+    if k in ans:
+        continue
+    if v < 2:
+        ans[k] = 0
+        continue
+    tmp = 0
+    dic[k] -= 1
+    for kk, vv in dic.items():
+        if vv >= 2:
+            tmp += ncr(vv, 2)
+    dic[k] += 1
+    ans[k] = tmp
 for a in arr:
-    if a in memo2:
-        print(memo2[a])
-    else:
-        ans = 0
-        dic[a] -= 1
-        for k, v in dic.items():
-            if v > 1:
-                ans += ncr(v, 2)
-        print(ans)
-        dic[a] += 1
-        memo2[a] = ans
+    print(ans[a])
