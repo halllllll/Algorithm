@@ -16,10 +16,3 @@ while l < n:
     lis.append(tmp)
     tmp = ""
     l = r  # ワープさせる （ワープ？）
-print(lis)
-if len(lis) - 1 <= 2 * k:
-    # ぜんぶ反転可能
-    print(n - 1)
-    exit()
-# 2*k+1個ぶんの部分配列を保持しつつ長さで答えを更新
-ans = 0
