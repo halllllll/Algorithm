@@ -12,6 +12,8 @@ var sc = bufio.NewScanner(os.Stdin)
 var out = bufio.NewWriter(os.Stdout)
 
 func main() {
+	buf := make([]byte, 1024*1024)
+	sc.Buffer(buf, bufio.MaxScanTokenSize)
 	sc.Split(bufio.ScanWords)
 	defer out.Flush() // !!!!caution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
@@ -88,53 +90,76 @@ func PrintOut(src interface{}, joinner string) {
 	}
 }
 
+// -*-*-*-*-*-*-*-
+// *  Structures *
+// -*-*-*-*-*-*-*-
+
+// Queue ... only for integers
+type Queue struct {
+	queue []int
+}
+
+// Enqueue ... the so-called enqueue
+func (q *Queue) Enqueue(x int) {
+	q.queue = append(q.queue, x)
+}
+
+// Dequeue ... the so-called dequeue
+func (q *Queue) Dequeue() (ret int) {
+	ret, q.queue = q.queue[0], q.queue[1:]
+	return
+}
+
+// Len ... return length of queue
+func (q *Queue) Len() (ret int) {
+	return len(q.queue)
+}
+
 // -*-*-*-*-*-*-*-*-
 // * tool snippets *
 // -*-*-*-*-*-*-*-*-
-func duplicate2Int(base [][]int)(ret [][]int){
-    ret = make([][]int, len(base))
-    for i, v := range base{
-        ret[i] = append([]int{}, v...)
-    }
-    return
+func duplicate2Int(base [][]int) (ret [][]int) {
+	ret = make([][]int, len(base))
+	for i, v := range base {
+		ret[i] = append([]int{}, v...)
+	}
+	return
 }
 
-func min(a, b interface{})interface{}{
-    x, y := toFloat64(a), toFloat64(b)
-    if x < y{
-        return a
-    }else{
-        return b
-    }
+func min(a, b int) int {
+	x, y := toFloat64(a), toFloat64(b)
+	if x < y {
+		return a
+	} else {
+		return b
+	}
 }
 
-func max(a, b interface{})interface{}{
-    x, y := toFloat64(a), toFloat64(b)
-    if x > y{
-        return a
-    }else{
-        return b
-    }
+func max(a, b int) int {
+	x, y := toFloat64(a), toFloat64(b)
+	if x > y {
+		return a
+	} else {
+		return b
+	}
 }
-
 
 func toFloat64(v interface{}) float64 {
-    r := reflect.ValueOf(v)
-    if r.IsValid() {
-        switch r.Kind() {
-        case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-            reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
-            reflect.Float32, reflect.Float64:
-            var x float64
-            return r.Convert(reflect.TypeOf(x)).Interface().(float64)
-        default:
-            return 0
+	r := reflect.ValueOf(v)
+	if r.IsValid() {
+		switch r.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+			reflect.Float32, reflect.Float64:
+			var x float64
+			return r.Convert(reflect.TypeOf(x)).Interface().(float64)
+		default:
+			return 0
 
-        }
-    } 
-    return 0
+		}
+	}
+	return 0
 }
-
 
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-
 // * Algorithms Utility Zone *
@@ -172,12 +197,12 @@ func upper_bound(arr []int, target int) int {
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 // * math flavor typical theories *
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-func gcd(a, b int)int{
-	if a > b{
+func gcd(a, b int) int {
+	if a > b {
 		return gcd(b, a)
 	}
-	for a != 0{
-		a, b = b % a, a
+	for a != 0 {
+		a, b = b%a, a
 	}
 	return b
 }
@@ -191,7 +216,6 @@ func pow(a, b int) (ret int) {
 	}
 	return
 }
-
 
 func powMod(n, m, mod int) (ret int) {
 	ret = 1
@@ -207,74 +231,74 @@ func powMod(n, m, mod int) (ret int) {
 	return ret
 }
 
-func ncr(n, r int)int{
-		// せいぜいn<10^2くらいの精度しかなくない？
-    res := 1
-    for i := 1; i <= r; i++ {
-     res = res * (n - i + 1) / i
-    }
-    return res
+func ncr(n, r int) int {
+	// せいぜいn<10^2くらいの精度しかなくない？
+	res := 1
+	for i := 1; i <= r; i++ {
+		res = res * (n - i + 1) / i
+	}
+	return res
 }
 
-func ncrMod(n, r, mod int)int{
-    // 呼び出すたびにテーブルを作るのは愚です（どうしようかね）
-    _n := 1000000
-    g1 := make([]int, _n+1)
-    g1[0], g1[1] = 1, 1
-    g2 := make([]int, _n+1)
-    g2[0], g2[1] = 1, 1
-    inverse := make([]int, _n+1)
-    inverse[0], inverse[1] = 0, 1
-    for i:=2; i<=_n; i++{
-        g1[i] = (g1[i-1]*i)%mod
-        inverse[i] = mod - inverse[mod % i] * (mod/i)%mod
-        g2[i] = (g2[i-1]*inverse[i])%mod
-    }
-    
-    return g1[n]*(g2[r]*g2[n-r]%mod)%mod
+func ncrMod(n, r, mod int) int {
+	// 呼び出すたびにテーブルを作るのは愚です（どうしようかね）
+	_n := 1000000
+	g1 := make([]int, _n+1)
+	g1[0], g1[1] = 1, 1
+	g2 := make([]int, _n+1)
+	g2[0], g2[1] = 1, 1
+	inverse := make([]int, _n+1)
+	inverse[0], inverse[1] = 0, 1
+	for i := 2; i <= _n; i++ {
+		g1[i] = (g1[i-1] * i) % mod
+		inverse[i] = mod - inverse[mod%i]*(mod/i)%mod
+		g2[i] = (g2[i-1] * inverse[i]) % mod
+	}
+
+	return g1[n] * (g2[r] * g2[n-r] % mod) % mod
 }
 
-func next_permutation(arr []int)(func()[]int){
-		/*
-			how to use it:
-				this is a generator, so should be invoked such as below example.
-				
-				"""code"""
-				np := next_permutation(arr)
-				for{
-					lis := np()
-					if len(lis) == 0{
+func next_permutation(arr []int) func() []int {
+	/*
+		how to use it:
+			this is a generator, so should be invoked such as below example.
+
+			"""code"""
+			np := next_permutation(arr)
+			for{
+				lis := np()
+				if len(lis) == 0{
+					break
+				}
+				fmt.Println(lis)
+			}
+			"""code end"""
+	*/
+	first := true
+	ret := append([]int{}, arr...)
+	_next_permutation := func() []int {
+		if first {
+			first = false
+			return arr
+		}
+		n := len(ret)
+		for i := n - 2; i >= 0; i-- {
+			if ret[i] < ret[i+1] {
+				j := n
+				for {
+					j -= 1
+					if ret[i] < ret[j] {
 						break
 					}
-					fmt.Println(lis)
 				}
-				"""code end"""
-		*/
-    first := true
-    ret := append([]int{}, arr...)
-    _next_permutation := func()([]int){
-        if first{
-            first = false
-            return arr
-        }
-        n := len(ret)
-        for i:=n-2; i>=0; i--{
-            if ret[i] < ret[i+1]{
-                j := n
-                for{
-                    j-=1
-                    if ret[i] < ret[j]{
-                        break
-                    }
-                }
-                ret[i], ret[j] = ret[j], ret[i]
-                for k:=n-1; i<k; i, k = i+1, k-1{
-                    ret[i+1], ret[k] = ret[k], ret[i+1]
-                }
-                return ret
-            }
-        }
-        return []int{}
-    }
-    return _next_permutation
+				ret[i], ret[j] = ret[j], ret[i]
+				for k := n - 1; i < k; i, k = i+1, k-1 {
+					ret[i+1], ret[k] = ret[k], ret[i+1]
+				}
+				return ret
+			}
+		}
+		return []int{}
+	}
+	return _next_permutation
 }
