@@ -18,10 +18,7 @@ func main() {
 	defer out.Flush() // !!!!caution!!!! you must use Fprint(out, ) not Print()
 	/* --- code --- */
 	a, b := nextInt(), nextInt()
-	fmt.Println(a, b)
-	n := gcd(a, b)
-	fmt.Println(n)
-
+	fmt.Fprintln(out, a, b)
 }
 
 // -*-*-*-*-*-*-*-*-
