@@ -16,3 +16,30 @@ while l < n:
     lis.append(tmp)
     tmp = ""
     l = r  # ワープさせる （ワープ？）
+
+print(lis)
+lnh = len(lis)
+l_arr, r_arr = [0] * lnh, [0] * lnh
+l_sum, r_sum = 0, 0
+for i in range(lnh):
+    if lis[i][0] == "L":
+        l_arr[i] = len(lis[i]) + (l_arr[i - 1] if i > 0 else 0)
+        l_sum += len(lis[i])
+        r_arr[i] = r_arr[i - 1] if i > 0 else 0
+    else:
+        r_arr[i] = len(lis[i]) + (r_arr[i - 1] if i > 0 else 0)
+        r_sum += len(lis[i])
+        l_arr[i] = l_arr[i - 1] if i > 0 else 0
+print(l_arr)
+print(r_arr)
+ans, tmp = 10**10, 0
+r = 0
+for l in range(lnh):
+    while r < lnh and r - l < k * 2:
+        tmp += r_arr[r] + l_arr[l]
+        r += 1
+    if r == lnh:
+        break
+    tmp -= (l_arr[l] + r_arr[r])
+    print(lis[l:r], tmp)
+# a-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
