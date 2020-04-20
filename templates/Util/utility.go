@@ -70,6 +70,7 @@ func chars(s string) []string {
 	return ret
 }
 
+// PrintOut with util device
 func PrintOut(src interface{}, joinner string) {
 	switch reflect.TypeOf(src).Kind() {
 	case reflect.Slice:
@@ -127,18 +128,16 @@ func min(a, b int) int {
 	x, y := toFloat64(a), toFloat64(b)
 	if x < y {
 		return a
-	} else {
-		return b
 	}
+	return b
 }
 
 func max(a, b int) int {
 	x, y := toFloat64(a), toFloat64(b)
 	if x > y {
 		return a
-	} else {
-		return b
 	}
+	return b
 }
 
 func toFloat64(v interface{}) float64 {
@@ -165,7 +164,7 @@ func toFloat64(v interface{}) float64 {
 // -*-*-*-*-*-*-*-
 // * 1. nibutan  *
 // -*-*-*-*-*-*-*-
-func lower_bound(arr []int, target int) int {
+func lowerBound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
 		mid := (l + r) / 2
@@ -178,7 +177,7 @@ func lower_bound(arr []int, target int) int {
 	return l
 }
 
-func upper_bound(arr []int, target int) int {
+func upperBound(arr []int, target int) int {
 	l, r := 0, len(arr)
 	for l < r {
 		mid := (l + r) / 2
@@ -255,13 +254,13 @@ func ncrMod(n, r, mod int) int {
 	return g1[n] * (g2[r] * g2[n-r] % mod) % mod
 }
 
-func next_permutation(arr []int) func() []int {
+func nextPerm(arr []int) func() []int {
 	/*
 		how to use it:
 			this is a generator, so should be invoked such as below example.
 
 			"""code"""
-			np := next_permutation(arr)
+			np := nextPermutation(arr)
 			for{
 				lis := np()
 				if len(lis) == 0{
@@ -273,7 +272,7 @@ func next_permutation(arr []int) func() []int {
 	*/
 	first := true
 	ret := append([]int{}, arr...)
-	_next_permutation := func() []int {
+	_nextPerm := func() []int {
 		if first {
 			first = false
 			return arr
@@ -283,7 +282,7 @@ func next_permutation(arr []int) func() []int {
 			if ret[i] < ret[i+1] {
 				j := n
 				for {
-					j -= 1
+					j--
 					if ret[i] < ret[j] {
 						break
 					}
@@ -297,5 +296,19 @@ func next_permutation(arr []int) func() []int {
 		}
 		return []int{}
 	}
-	return _next_permutation
+	return _nextPerm
+}
+
+// Enumerate all the divisors.
+func enumDiv(x int) (ret []int) {
+	ret = []int{}
+	for i := 1; i*i <= x; i++ {
+		if x%i == 0 {
+			ret = append(ret, i)
+			if i != 1 && i*i != x {
+				ret = append(ret, x/i)
+			}
+		}
+	}
+	return
 }
