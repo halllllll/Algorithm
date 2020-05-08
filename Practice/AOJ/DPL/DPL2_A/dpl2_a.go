@@ -58,7 +58,9 @@ func main(){
     for i:=0; i<v; i++{
         if dp[(1<<uint64(v))-1][i] == INF{
             continue
-        }
+				}
+				// なんでこれtable[i][0]なんだろうね
+				// 
         ans = min(ans, dp[(1<<uint64(v))-1][i]+table[i][0])
     }
     if ans == INF{
