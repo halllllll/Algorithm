@@ -263,6 +263,30 @@ func ncrMod(n, r, mod int) int {
 	return g1[n] * (g2[r] * g2[n-r] % mod) % mod
 }
 
+// たくさん使う場合は↑より↓のほうが1000倍くらい早い
+func combMod(n, m, MOD int) int {
+	return factorial(n, n-m+1, MOD) * _pow(factorial(m, 2, MOD), MOD-2, MOD) % MOD
+}
+
+func _pow(x, n, MOD int) int {
+	r := 1
+	for ; n > 0; n /= 2 {
+		if n%2 == 1 {
+			r = r * x % MOD
+		}
+		x = x * x % MOD
+	}
+	return r
+}
+
+func factorial(n, m, MOD int) int {
+	r := 1
+	for i := m; i <= n; i++ {
+		r = r * i % MOD
+	}
+	return r
+}
+
 func nextPerm(arr []int) func() []int {
 	/*
 		how to use it:
@@ -320,4 +344,19 @@ func enumDiv(x int) (ret []int) {
 		}
 	}
 	return
+}
+
+// 素因数分解
+func primeFactorization(x int) map[int]int {
+	ret := make(map[int]int)
+	for i := 2; i*i <= x; i++ {
+		for x%i == 0 {
+			x /= i
+			ret[i] += 1
+		}
+	}
+	if x > 1 {
+		ret[x] += 1
+	}
+	return ret
 }
