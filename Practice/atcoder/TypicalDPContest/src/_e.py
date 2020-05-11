@@ -1,11 +1,14 @@
-# なぜかrubyでREになるので仕方なくpythonで
+
 # 桁dp
-# ??????????????なんか同じ場所でREなる............................
+# TLEなる....
+import sys
+sys.setrecursionlimit(10**7)
 
 d, n = int(input()), input()
-
+MOD = 10**9+7
 memo = [[[None for _ in range(d + 1)] for _ in range(2)]
-        for _ in range(len(n)+1)]
+        for _ in range(len(n) + 1)]
+
 
 
 def rec(i, threshold, s):
@@ -20,9 +23,8 @@ def rec(i, threshold, s):
     for j in range(limit + 1):
         nex_threshold = 1 if (j == limit and threshold == 1) else 0
         ret += rec(i + 1, nex_threshold, (s + j) % d)
-        ret %= 10 ** 9 + 7
-        memo[i][threshold][s] = ret
-
+        ret %= MOD
+    memo[i][threshold][s%d] = ret
     return ret
 
 
