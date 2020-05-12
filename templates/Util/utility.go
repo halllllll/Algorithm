@@ -212,12 +212,14 @@ func gcd(a, b int) int {
 	return b
 }
 
-func pow(a, b int) (ret int) {
-	ret = a
-	// 10^2 = 100ってことは10に10を1回掛けることだね
-	// なので初期値を含めると上限b-1未満
-	for i := 0; i < b-1; i++ {
-		ret *= a
+func pow(a, b int) (ret float64) {
+	if b < 0 {
+		return 1 / pow(a, -b)
+	}
+	ret = 1.0
+	for b > 0 {
+		ret *= float64(a)
+		b--
 	}
 	return
 }
