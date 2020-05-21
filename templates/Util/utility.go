@@ -265,6 +265,7 @@ func ncrMod(n, r, mod int) int {
 	return g1[n] * (g2[r] * g2[n-r] % mod) % mod
 }
 
+// * ------- combMod famiry start here ------- *
 // たくさん使う場合は↑より↓のほうが1000倍くらい早い
 func combMod(n, m, MOD int) int {
 	return factorial(n, n-m+1, MOD) * _pow(factorial(m, 2, MOD), MOD-2, MOD) % MOD
@@ -289,6 +290,9 @@ func factorial(n, m, MOD int) int {
 	return r
 }
 
+// * ------- combMod famiry end ------- *
+
+// generate next permutation list
 func nextPerm(arr []int) func() []int {
 	/*
 		how to use it:
