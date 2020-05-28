@@ -14,3 +14,4 @@ spec
 .rspec
 node_modules
 package-lock.json
+PAST/
