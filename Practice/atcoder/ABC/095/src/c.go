@@ -1,23 +1,36 @@
+// ABを買うか買わないか -> 駄目
+// ABだけを買って分解する -> これが想定解らしい...
 package main
-import (
-	"fmt"
-)
 
-func main(){
-	// a+b<cならcを選んだほうが得になる?
-	// a/2+b/2=cなので駄目だったわ えっとね
-	// a+b = 2c
-	// 出力例1はa+b < 2cなのでcをx,y=3,2の小さい方に合わせて ()+（x,yのうち小さい方*2*c） = x+4c = 1*1500 + 4*1600 が最小。a,b,c = 1500, 2000, 1600
-	// 出力例2はa+b > 2cなのでcをx,y=3,2の大きい方に合わせて3x+2y = 3*1500 + 2*2000 が最小。a,b,c = 1500, 2000, 1900
-	// 出力例3はa+b < 2cなのでcをx,y=90000, 100000の大きい方に合わせてみると、a,b,c = 1500, 2000, 500なので、c=100000*500=5千万, 2c = 一億
+import "fmt"
 
-	var a, b, c, x, y int
-	fmt.Scan(&a, &b, &c, &x, &y)
-	if a+b<2*c{
-		min := x
-		if x>y{
-			min = y
+func main() {
+	var A, B, C, X, Y int
+	fmt.Scan(&A, &B, &C, &X, &Y)
+	ans := int(1e18)
+	for i := 0; i <= int(1e5); i++ {
+		x, y := 0, 0
+		if i < X {
+			x = X - i
 		}
-
+		if i < Y {
+			y = Y - i
+		}
+		ans = min(ans, 2*i*C+x*A+y*B)
 	}
+	fmt.Println(ans)
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
 }

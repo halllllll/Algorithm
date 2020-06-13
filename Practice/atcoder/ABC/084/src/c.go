@@ -1,61 +1,43 @@
-// ぱっと見むずいがにぶたんの臭いがする
-// 一瞬誤読して実際に作ったやつ省くんかと思ったが種類だけを聞いているんだった
-// TLEになりやがったのでbufioを使う
+// 一回一回探索してもまあよさそう
+// なぜか大量にWAをくらう あってるのはサンプルくらい 地獄
+// lcm使ってたのが駄目っぽい（それはそう
+
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"sort"
-	"strconv"
-)
+import "fmt"
 
-var sc = bufio.NewScanner(os.Stdin)
-var out = bufio.NewWriter(os.Stdout)
+type Data struct {
+	C, S, F int
+}
 
 func main() {
-	buf := make([]byte, 1024*1024)
-	sc.Buffer(buf, bufio.MaxScanTokenSize)
-	sc.Split(bufio.ScanWords)
-	defer out.Flush()
-	N := nextInt()
-	A, B, C := nextInts(N), nextInts(N), nextInts(N)
-	sort.Sort(sort.Reverse(sort.IntSlice(A)))
-	sort.Ints(B)
-	sort.Ints(C)
-	ans := 0
-	for i := 0; i < N; i++ {
-		// ascendingのときreverseしなきゃいけないのか....
-		left := sort.Search(N, func(j int) bool {
-			return A[j] < B[i]
-		})
-		right := sort.Search(N, func(j int) bool {
-			return C[j] > B[i]
-		})
-		if left == N || right == N {
-			// golangのバイナリサーチで見つからないとき下でも上でもこれになるらしい
-			continue
+	var N int
+	fmt.Scan(&N)
+	datas := make([]Data, N-1)
+	for i := 0; i < N-1; i++ {
+		var c, s, f int
+		fmt.Scan(&c, &s, &f)
+		datas[i] = Data{C: c, S: s, F: f}
+	}
+	for i := 0; i < N-1; i++ {
+		time := datas[i].S + datas[i].C
+		for j := i + 1; j < N-1; j++ {
+			// ここについたときに経過してる時間 vs 次の出発
+			// 出発前 -> 始発の時間にする
+			// 出発済 -> 次のやつ
+			if datas[j].S >= time {
+				time = datas[j].S + datas[j].C
+			} else {
+				// いまの時間を超える最小のF
+				x := (time / datas[j].F)
+				if time%datas[j].F != 0 {
+					x += 1
+				}
+				x *= datas[j].F
+				time = x + datas[j].C
+			}
 		}
-		ans += (N - left) * (N - right)
+		fmt.Println(time)
 	}
-	fmt.Fprintln(out, ans)
-}
-
-func next() string {
-	sc.Scan()
-	return sc.Text()
-}
-
-func nextInt() int {
-	a, _ := strconv.Atoi(next())
-	return a
-}
-
-func nextInts(n int) []int {
-	ret := make([]int, n)
-	for i := 0; i < n; i++ {
-		ret[i] = nextInt()
-	}
-	return ret
+	fmt.Println(0)
 }
