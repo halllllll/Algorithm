@@ -1,0 +1,64 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build cpp",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-g",
+          "-o",
+          "${fileDirname}/${fileBasenameNoExtension}.out",
+          "${file}"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "P5",
+        "command": "processing-java",
+        "type": "process",
+        "args": [
+          "--force",
+          "--sketch=${workspaceRoot}",
+          "--run"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "type": "shell",
+        "label": "tsc-compile",
+        "command": "tsc ${fileDirname}/${fileBasenameNoExtension}.ts",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "type": "shell",
+        "label": "node-exec",
+        "dependsOn": [
+          "tsc-compile"
+        ],
+        "command": "node ${fileDirname}/${fileBasenameNoExtension}.js",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        
+      }
+    ]
+}

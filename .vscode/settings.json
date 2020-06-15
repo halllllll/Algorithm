@@ -1,0 +1,32 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.wordWrap": "on",
+  "python.formatting.provider": "yapf",
+  "python.pythonPath": "/Users/hal/.pyenv/versions/anaconda3-5.0.1/envs/4atcoder/bin/python",
+  "liveServer.settings.port": 5501,
+  "git.ignoreLimitWarning": true,
+  "python.testing.autoTestDiscoverOnSaveEnabled": false,
+  "[go]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true
+  },
+  "go.gopath": "/Users/hal/go/1.14.1",
+  "go.formatFlags": [
+    "-w"
+  ],
+  "go.lintOnSave": "file",
+  // "go.vetOnSave": "workspace",
+  // "go.buildOnSave": "workspace",
+  // "go.testOnSave": false,
+  "go.gocodeAutoBuild": true,
+  "go.alternateTools": {
+    "gopls": "gopls",
+    "go": "go"
+  },
+  "go.inferGopath": false,
+}

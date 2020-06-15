@@ -1,0 +1,27 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 2345,
+            "host": "127.0.0.1",
+            // "program": "${relativeFile}",
+            // "program": "${file}" 2020/04/21 14:46:05 debugger.go:98: launching process with args: [/Users/hal/Documents/workspace/Algorithm/Practice/atcoder/ABC/160/src/debug time go run]
+            // "program": "${fileDirname}"  mypkg/Practice/atcoder/ABC/160/src./d.go: 8: 6: 
+            // "args": [
+            //   "time",
+            //   "go",
+            //   "run",
+            // ],
+            "args": [],
+            "showLog": true
+        }
+    ]
+}
