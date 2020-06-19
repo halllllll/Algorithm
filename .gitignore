@@ -3,7 +3,6 @@ oneword.md
 tests/
 tests
 *.exe
-.vscode
 .DS_Store
 debug
 Practice/atocder/HelloAtcoder
