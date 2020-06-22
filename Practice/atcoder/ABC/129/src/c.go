@@ -1,43 +1,35 @@
-// dp典型
 package main
-
 import "fmt"
-
-func main() {
+func main(){
 	var N, M int
 	fmt.Scan(&N, &M)
-	S := make([]int, N+1)
-	T := make([]bool, N+1)
-	MOD := int(10e8) + 7
-	if M > 0 {
-		// panic("は？？？？？？なにこれ こんなことして楽しいの？？")
-		for i := 0; i < M; i++ {
-			var V int
-			fmt.Scan(&V)
-			T[V] = true // 直感と反してわかりにくいがtrueが踏んじゃ駄目なつもり
+	DP := make([]int, N+101)
+	for i:=0; i<M; i++{
+		var V int
+		fmt.Scan(&V)
+		DP[V] = -1
+	}
+	if DP[1] == 0{
+		DP[1]= 1
+	}
+	if DP[2] == 0{
+		if DP[1] > 0{
+			DP[2] = 2
+		}else{
+			DP[2] = 1
 		}
 	}
-	// 初期化
-	if N >= 1 {
-		S[0] = 1
-		if !T[1] {
-			S[1] = 1
+	for i:=3; i<=N; i++{
+		if DP[i] == -1{
+			continue
 		}
-	}
-	if N >= 2 {
-		if !T[2] {
-			S[2] = S[1] + 1
+		if DP[i-2] > 0{
+			DP[i] += DP[i-2]
 		}
-	}
-
-	// 探索
-	for i := 3; i < N+1; i++ {
-		if T[i] {
-			S[i] = 0
-		} else {
-			S[i] = S[i-1] + S[i-2]
-			S[i] %= MOD
+		if DP[i-1] > 0{
+			DP[i] += DP[i-1]
 		}
+		DP[i] %= (int(1e9)+7)
 	}
-	fmt.Println(S[len(S)-1])
+	fmt.Println(DP[N])
 }
