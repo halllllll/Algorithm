@@ -1,4 +1,4 @@
-// Biに対してAi,CiにLowerBound, UpperBound
+// 正方形かと思ったら違った うーんどうしよう
 
 package main
 
@@ -6,7 +6,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
@@ -19,30 +18,7 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	defer out.Flush()
 	N := nextInt()
-	A, B, C := nextInts(N), nextInts(N), nextInts(N)
-	// sort.Sort(sort.Reverse(sort.IntSlice(A)))
-	sort.Ints(A)
-	sort.Ints(B)
-	// sort.Ints(C)
-	sort.Sort(sort.Reverse(sort.IntSlice(C)))
-	fmt.Println(A)
-	fmt.Println(B)
-	fmt.Println(C)
-
-	ans := 0
-	for i := 0; i < N; i++ {
-		smaller := sort.Search(N, func(j int) bool {
-			return B[i] < A[i]
-		})
-		larger := sort.Search(N, func(j int) bool {
-			return C[j] < B[i]
-		})
-		fmt.Printf("B[i] = %d, smaller = %d, larget = %d\n", B[i], smaller, larger)
-		if smaller != N && larger != N && A[smaller] < B[i] && B[i] < C[larger] {
-			// ans += (N - (smaller + 1))*()
-		}
-	}
-	fmt.Fprintln(out, ans)
+	fmt.Fprintln(out, N)
 }
 
 func next() string {
